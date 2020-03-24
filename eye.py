@@ -8,21 +8,30 @@ import soundfile as sf
 
 import skvideo.io
 
+# sudo ln -s /home/peter/Documents/gits/surveillance_openCV_test/eye.py /bin/eyes
+
 def run_cam(cam_u=0):
     cam_used=0
     cam_list = []
-    try:
-        vr= cv2.VideoCapture(0)
-    except:
-        print("no cam to view") #shuld add a defult view here
-    cam_list.append(vr)
-    for i in range(1,10):#just set to a hi number
-        try:
-            print(i)
-            vr1 = cv2.VideoCapture(i)
-            cam_list.append(vr1)
-        except NameError:
+    # try:
+    #     vr= cv2.VideoCapture(0)
+    # except:
+    #     print("no cam to view") #shuld add a defult view here
+    #cam_list.append(vr)
+    for i in range(0,10):#just set to a hi number
+        vr1 = cv2.VideoCapture(i)
+        if vr1 is None or not vr1.isOpened():
+            #print('Warning: unable to open video source: ', i)
+            #print(i)
             break
+        else:
+            #print(i)
+            cam_list.append(vr1)
+
+    if len(cam_list)==0:
+        print("Warning: unable to open any video source")
+    else:
+        print(str(len(cam_list))+" number of cam avalible")
 
     isFrame, frame =cam_list[cam_used].read()
 
